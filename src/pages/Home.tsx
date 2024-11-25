@@ -14,7 +14,7 @@ const Home: React.FC = () => {
 
   return (
     <div className='flex flex-col gap-4 p-6'>
-      <img src="/public/earth-icon.svg" alt="Logo" className='size-20 m-auto' />
+      <img src="/earth-icon.svg" alt="Logo" className='size-20 m-auto' />
       <h1 className='text-center font-bold text-4xl mb-6'>
         Countries Explorer
       </h1>
