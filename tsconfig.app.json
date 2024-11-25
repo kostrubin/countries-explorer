@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "test/WeatherInfo.test.tsx", "test/CountryDetails.test.tsx"]
+  "include": ["src"]
 }
