@@ -76,6 +76,7 @@ const FilterSortBar: React.FC<FilterSortBarProps> = ({
             <label htmlFor='property'>By:</label>
             <select
               id='property'
+              disabled={loading}
               value={sortBy}
               onChange={(e) =>
                 setSortBy(e.target.value as 'name' | 'population' | 'area')
@@ -91,6 +92,7 @@ const FilterSortBar: React.FC<FilterSortBarProps> = ({
             <label htmlFor='order'>Order:</label>
             <select
               id='order'
+              disabled={loading}
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
               className='flex grow p-2 border border-gray-300 rounded-xl'
