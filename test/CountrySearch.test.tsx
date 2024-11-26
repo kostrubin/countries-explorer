@@ -1,16 +1,29 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import CountrySearch from '../src/components/CountrySearch';
+import { DEFAULT_DEBOUNCE_TIMEOUT } from '../src/constants';
 
-test('updates query state and calls onSearch on input change', () => {
+jest.useFakeTimers();
+
+test('updates query state and calls onSearch with debounce, including reset', () => {
   const mockOnSearch = jest.fn();
   render(<CountrySearch onSearch={mockOnSearch} />);
 
-  const inputElement = screen.getByPlaceholderText(/search for a country/i);
+  const inputElement = screen.getByPlaceholderText(
+    /type at least 3 characters to search a country.../i
+  );
 
-  fireEvent.change(inputElement, { target: { value: 'Italy' } });
-
-  expect((inputElement as HTMLInputElement).value).toBe('Italy');
-
+  fireEvent.change(inputElement, { target: { value: 'It' } });
+  act(() => jest.advanceTimersByTime(DEFAULT_DEBOUNCE_TIMEOUT));
+  expect(mockOnSearch).toHaveBeenCalledWith('');
   expect(mockOnSearch).toHaveBeenCalledTimes(1);
-  expect(mockOnSearch).toHaveBeenCalledWith('Italy');
+
+  fireEvent.change(inputElement, { target: { value: 'Ita' } });
+  act(() => jest.advanceTimersByTime(DEFAULT_DEBOUNCE_TIMEOUT));
+  expect(mockOnSearch).toHaveBeenCalledWith('Ita');
+  expect(mockOnSearch).toHaveBeenCalledTimes(2);
+
+  fireEvent.change(inputElement, { target: { value: '' } });
+  act(() => jest.advanceTimersByTime(DEFAULT_DEBOUNCE_TIMEOUT));
+  expect(mockOnSearch).toHaveBeenCalledWith('');
+  expect(mockOnSearch).toHaveBeenCalledTimes(3);
 });

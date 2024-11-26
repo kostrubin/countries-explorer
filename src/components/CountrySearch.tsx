@@ -15,10 +15,12 @@ const CountrySearch: React.FC<CountrySearchProps> = ({ onSearch }) => {
   };
 
   useEffect(() => {
+    if (debouncedQuery.trim() === '') {
+      onSearch('');
+    }
+
     if (debouncedQuery.length >= 3) {
       onSearch(debouncedQuery);
-    } else {
-      onSearch('');
     }
   }, [debouncedQuery, onSearch]);
 
